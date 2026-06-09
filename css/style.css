@@ -108,6 +108,7 @@ color:white;
 .section-title{
 font-size:2rem;
 font-weight:700;
+margin-top:40px;
 margin-bottom:40px;
 text-align:center;
 }
@@ -149,6 +150,7 @@ cursor:pointer;
 .about-card{
 padding:40px;
 line-height:1.8;
+margin-top:40px;
 }
 
 .contact-card{

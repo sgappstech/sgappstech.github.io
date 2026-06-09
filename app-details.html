@@ -1,44 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>App Details</title>
+<title>App Details | SG Apps Tech</title>
 
 <link rel="stylesheet" href="css/style.css">
 
 <style>
 
-.app-detail{
-padding:120px 20px;
+.app-page{
+padding:60px 0;
 }
 
 .app-header{
 display:flex;
 gap:30px;
 align-items:center;
-flex-wrap:wrap;
+padding:30px;
+margin-bottom:25px;
 }
 
-.app-logo{
+.app-icon{
 width:140px;
 height:140px;
 border-radius:30px;
 object-fit:cover;
 }
 
-.screenshots{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:20px;
-margin-top:40px;
+.app-meta{
+flex:1;
 }
 
-.screenshots img{
+.app-meta h1{
+font-size:2.5rem;
+margin-bottom:10px;
+}
+
+.app-meta p{
+color:#bbb;
+}
+
+.app-stats{
+display:flex;
+gap:25px;
+margin-top:25px;
+flex-wrap:wrap;
+}
+
+.app-stat{
+text-align:center;
+}
+
+.app-stat h3{
+font-size:1.2rem;
+margin-bottom:5px;
+}
+
+.app-stat span{
+color:#999;
+font-size:.9rem;
+}
+
+.section-box{
+padding:30px;
+margin-bottom:25px;
+}
+
+.section-box h2{
+margin-bottom:15px;
+}
+
+.section-box p{
+color:#bbb;
+line-height:1.8;
+}
+
+.features{
+padding-left:20px;
+}
+
+.features li{
+margin-bottom:10px;
+color:#bbb;
+}
+
+.screenshot-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:20px;
+}
+
+.screenshot-grid img{
 width:100%;
 border-radius:20px;
+display:block;
+}
+
+.info-table{
+width:100%;
+border-collapse:collapse;
+}
+
+.info-table td{
+padding:15px;
+border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.info-table td:first-child{
+width:180px;
+color:#999;
+}
+
+.download-btn{
+margin-top:25px;
+}
+
+.back-link{
+display:inline-block;
+margin-bottom:25px;
+color:white;
+text-decoration:none;
+}
+
+.not-found{
+padding:100px 20px;
+text-align:center;
+}
+
+@media(max-width:768px){
+
+.app-header{
+flex-direction:column;
+text-align:center;
+}
+
+.app-meta h1{
+font-size:2rem;
+}
+
+.app-stats{
+justify-content:center;
+}
+
 }
 
 </style>
@@ -50,30 +155,131 @@ border-radius:20px;
 <div class="bg-blur bg1"></div>
 <div class="bg-blur bg2"></div>
 
-<section class="app-detail">
+<header>
+    <div class="container nav">
 
-<div class="container glass">
+        <div class="logo">
+            SG Apps Tech
+        </div>
 
-<div class="app-header">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="index.html#apps">Apps</a>
+            <a href="index.html#contact">Contact</a>
+        </nav>
 
-<img id="logo" class="app-logo">
+    </div>
+</header>
 
-<div>
-<h1 id="title"></h1>
-<p id="description"></p>
+<section class="app-page">
+
+<div class="container">
+
+<a href="index.html#apps" class="back-link">
+← Back to Apps
+</a>
+
+<div class="glass app-header">
+
+    <img
+    id="appIcon"
+    src=""
+    alt=""
+    class="app-icon">
+
+    <div class="app-meta">
+
+        <h1 id="appName">Loading...</h1>
+
+        <p id="developer"></p>
+
+        <div class="app-stats">
+
+            <div class="app-stat">
+                <h3 id="rating">-</h3>
+                <span>Rating</span>
+            </div>
+
+            <div class="app-stat">
+                <h3 id="downloads">-</h3>
+                <span>Downloads</span>
+            </div>
+
+            <div class="app-stat">
+                <h3 id="size">-</h3>
+                <span>Size</span>
+            </div>
+
+        </div>
+
+        <a href="#"
+           id="downloadLink"
+           class="btn-primary download-btn">
+            Install App
+        </a>
+
+    </div>
+
 </div>
 
+<div class="glass section-box">
+
+    <h2>About This App</h2>
+
+    <p id="description">
+        Loading...
+    </p>
+
 </div>
 
-<h2 style="margin-top:40px;">
-Screenshots
-</h2>
+<div class="glass section-box">
 
-<div class="screenshots">
+    <h2>Features</h2>
 
-<img id="ss1">
-<img id="ss2">
-<img id="ss3">
+    <ul id="features" class="features"></ul>
+
+</div>
+
+<div class="glass section-box">
+
+    <h2>Screenshots</h2>
+
+    <div id="screenshots" class="screenshot-grid"></div>
+
+</div>
+
+<div class="glass section-box">
+
+    <h2>App Information</h2>
+
+    <table class="info-table">
+
+        <tr>
+            <td>Developer</td>
+            <td id="infoDeveloper">SG Apps Tech</td>
+        </tr>
+
+        <tr>
+            <td>Version</td>
+            <td id="version">1.0.0</td>
+        </tr>
+
+        <tr>
+            <td>Category</td>
+            <td id="category">Communication</td>
+        </tr>
+
+        <tr>
+            <td>Downloads</td>
+            <td id="infoDownloads">-</td>
+        </tr>
+
+        <tr>
+            <td>Size</td>
+            <td id="infoSize">-</td>
+        </tr>
+
+    </table>
 
 </div>
 
@@ -81,78 +287,117 @@ Screenshots
 
 </section>
 
+<footer>
+    <div class="container">
+        <p>
+            © 2026 SG Apps Tech. All Rights Reserved.
+        </p>
+    </div>
+</footer>
+
+<script src="js/apps.js"></script>
+
 <script>
 
-const apps = {
-
-bubu:{
-title:"Bubu Panda Stickers for WA",
-logo:"images/bubu-logo.png",
-description:"Cute and funny Bubu Panda sticker packs for WhatsApp users. Share emotions and fun conversations with adorable panda stickers.",
-screenshots:[
-"images/bubu-1.jpg",
-"images/bubu-2.jpg",
-"images/bubu-3.jpg"
-]
-},
-
-dino:{
-title:"Yellow Dino Stickers for WA",
-logo:"images/dino-logo.png",
-description:"A collection of funny yellow dinosaur stickers designed for WhatsApp chats.",
-screenshots:[
-"images/dino-1.jpg",
-"images/dino-2.jpg",
-"images/dino-3.jpg"
-]
-},
-
-cutebaby:{
-title:"Cute Baby Stickers for WA",
-logo:"images/baby-logo.png",
-description:"Express joy and emotions using cute baby sticker packs for WhatsApp.",
-screenshots:[
-"images/baby-1.jpg",
-"images/baby-2.jpg",
-"images/baby-3.jpg"
-]
-},
-
-animatedbaby:{
-title:"Animated Baby Stickers for WA",
-logo:"images/animated-baby-logo.png",
-description:"Animated baby stickers that make your chats more lively and expressive.",
-screenshots:[
-"images/animated-1.jpg",
-"images/animated-2.jpg",
-"images/animated-3.jpg"
-]
-}
-
-};
-
 const params = new URLSearchParams(window.location.search);
-const app = params.get("app");
+const id = params.get("id");
 
-if(apps[app]){
+const app = apps[id];
 
-document.getElementById("title").innerText =
-apps[app].title;
+if(app){
 
-document.getElementById("description").innerText =
-apps[app].description;
+    document.title = app.name + " | SG Apps Tech";
 
-document.getElementById("logo").src =
-apps[app].logo;
+    document.getElementById("appName").textContent =
+        app.name;
 
-document.getElementById("ss1").src =
-apps[app].screenshots[0];
+    document.getElementById("developer").textContent =
+        app.developer;
 
-document.getElementById("ss2").src =
-apps[app].screenshots[1];
+    document.getElementById("rating").textContent =
+        app.rating + "★";
 
-document.getElementById("ss3").src =
-apps[app].screenshots[2];
+    document.getElementById("downloads").textContent =
+        app.downloads;
+
+    document.getElementById("size").textContent =
+        app.size;
+
+    document.getElementById("description").textContent =
+        app.description;
+
+    document.getElementById("appIcon").src =
+        app.icon;
+
+    document.getElementById("appIcon").alt =
+        app.name;
+
+    document.getElementById("infoDeveloper").textContent =
+        app.developer;
+
+    document.getElementById("infoDownloads").textContent =
+        app.downloads;
+
+    document.getElementById("infoSize").textContent =
+        app.size;
+
+    if(app.version){
+        document.getElementById("version").textContent =
+            app.version;
+    }
+
+    if(app.category){
+        document.getElementById("category").textContent =
+            app.category;
+    }
+
+    if(app.playstore){
+        document.getElementById("downloadLink").href =
+            app.playstore;
+    }
+
+    const featureList =
+        document.getElementById("features");
+
+    app.features.forEach(feature => {
+
+        const li =
+            document.createElement("li");
+
+        li.textContent = feature;
+
+        featureList.appendChild(li);
+
+    });
+
+    const screenshotContainer =
+        document.getElementById("screenshots");
+
+    app.screenshots.forEach(image => {
+
+        const img =
+            document.createElement("img");
+
+        img.src = image;
+
+        img.alt = app.name;
+
+        screenshotContainer.appendChild(img);
+
+    });
+
+}else{
+
+    document.body.innerHTML = `
+        <div class="not-found">
+            <h1>Application Not Found</h1>
+            <p>Invalid application id.</p>
+            <br>
+            <a href="index.html" class="btn-primary">
+                Go Home
+            </a>
+        </div>
+    `;
 
 }
 
