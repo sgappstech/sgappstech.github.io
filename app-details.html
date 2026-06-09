@@ -1,27 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>SG Apps Tech | Android App Publisher</title>
-
-<meta name="description"
-content="SG Apps Tech creates Android apps including wallpapers, stickers, tools, and utility applications designed for everyday users.">
-
-<meta name="keywords"
-content="Android Apps, Wallpapers, Stickers, Mobile Apps, Utility Apps, SG Apps Tech">
-
-<meta name="author" content="SG Apps Tech">
-
-<meta property="og:title" content="SG Apps Tech">
-<meta property="og:description" content="Modern Android Apps for Everyone">
-<meta property="og:type" content="website">
+<title>App Details</title>
 
 <link rel="stylesheet" href="css/style.css">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+
+.app-detail{
+padding:120px 20px;
+}
+
+.app-header{
+display:flex;
+gap:30px;
+align-items:center;
+flex-wrap:wrap;
+}
+
+.app-logo{
+width:140px;
+height:140px;
+border-radius:30px;
+object-fit:cover;
+}
+
+.screenshots{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.screenshots img{
+width:100%;
+border-radius:20px;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -29,229 +50,113 @@ content="Android Apps, Wallpapers, Stickers, Mobile Apps, Utility Apps, SG Apps 
 <div class="bg-blur bg1"></div>
 <div class="bg-blur bg2"></div>
 
-<header>
-    <div class="container nav">
-        <div class="logo">
-            SG Apps Tech
-        </div>
+<section class="app-detail">
 
-        <nav>
-            <a href="#apps">Apps</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </nav>
-    </div>
-</header>
+<div class="container glass">
 
-<section class="hero">
+<div class="app-header">
 
-    <div class="container hero-content">
+<img id="logo" class="app-logo">
 
-        <div class="hero-text">
-            <span class="badge">
-                Android App Publisher
-            </span>
+<div>
+<h1 id="title"></h1>
+<p id="description"></p>
+</div>
 
-            <h1>
-                Creating Useful Android Apps For Everyone
-            </h1>
+</div>
 
-            <p>
-                SG Apps Tech develops modern Android applications including
-                wallpapers, stickers, productivity tools and mobile utilities.
-                Our mission is to deliver lightweight, fast and user-friendly experiences.
-            </p>
+<h2 style="margin-top:40px;">
+Screenshots
+</h2>
 
-            <div class="hero-buttons">
-                <a href="#apps" class="btn-primary">
-                    Explore Apps
-                </a>
+<div class="screenshots">
 
-                <a href="#about" class="btn-secondary">
-                    Learn More
-                </a>
-            </div>
-        </div>
+<img id="ss1">
+<img id="ss2">
+<img id="ss3">
 
-        <div class="hero-image glass">
-            <img src="playstore.png" alt="App Showcase">
-        </div>
+</div>
 
-    </div>
+</div>
 
 </section>
 
-<section id="stats">
+<script>
 
-    <div class="container">
+const apps = {
 
-        <div class="section-title">
-            Platform Statistics
-        </div>
+bubu:{
+title:"Bubu Panda Stickers for WA",
+logo:"images/bubu-logo.png",
+description:"Cute and funny Bubu Panda sticker packs for WhatsApp users. Share emotions and fun conversations with adorable panda stickers.",
+screenshots:[
+"images/bubu-1.jpg",
+"images/bubu-2.jpg",
+"images/bubu-3.jpg"
+]
+},
 
-        <div class="stats-grid">
+dino:{
+title:"Yellow Dino Stickers for WA",
+logo:"images/dino-logo.png",
+description:"A collection of funny yellow dinosaur stickers designed for WhatsApp chats.",
+screenshots:[
+"images/dino-1.jpg",
+"images/dino-2.jpg",
+"images/dino-3.jpg"
+]
+},
 
-            <div class="glass stat-card">
-                <h2 class="counter" data-target="115">0</h2>
-                <p>Published Apps</p>
-            </div>
+cutebaby:{
+title:"Cute Baby Stickers for WA",
+logo:"images/baby-logo.png",
+description:"Express joy and emotions using cute baby sticker packs for WhatsApp.",
+screenshots:[
+"images/baby-1.jpg",
+"images/baby-2.jpg",
+"images/baby-3.jpg"
+]
+},
 
-            <div class="glass stat-card">
-                <h2 class="counter" data-target="100000">0</h2>
-                <p>Downloads</p>
-            </div>
+animatedbaby:{
+title:"Animated Baby Stickers for WA",
+logo:"images/animated-baby-logo.png",
+description:"Animated baby stickers that make your chats more lively and expressive.",
+screenshots:[
+"images/animated-1.jpg",
+"images/animated-2.jpg",
+"images/animated-3.jpg"
+]
+}
 
-            <div class="glass stat-card">
-                <h2 class="counter" data-target="48">0</h2>
-                <p>Average Rating ×10</p>
-            </div>
+};
 
-        </div>
+const params = new URLSearchParams(window.location.search);
+const app = params.get("app");
 
-    </div>
+if(apps[app]){
 
-</section>
+document.getElementById("title").innerText =
+apps[app].title;
 
-<section id="apps">
+document.getElementById("description").innerText =
+apps[app].description;
 
-    <div class="container">
+document.getElementById("logo").src =
+apps[app].logo;
 
-        <div class="section-title">
-            Featured Applications
-        </div>
+document.getElementById("ss1").src =
+apps[app].screenshots[0];
 
-        <div class="apps-grid">
+document.getElementById("ss2").src =
+apps[app].screenshots[1];
 
-            <div class="glass app-card">
+document.getElementById("ss3").src =
+apps[app].screenshots[2];
 
-                <img src="playstore.png">
+}
 
-                <h3>HD Wallpapers</h3>
-
-                <p>
-                    Discover thousands of beautiful wallpapers
-                    optimized for Android devices.
-                </p>
-
-                <button>View Details</button>
-
-            </div>
-
-            <div class="glass app-card">
-
-                <img src="playstore.png">
-
-                <h3>Sticker Collection</h3>
-
-                <p>
-                    Creative sticker packs for sharing fun moments
-                    with family and friends.
-                </p>
-
-                <button>View Details</button>
-
-            </div>
-
-            <div class="glass app-card">
-
-                <img src="playstore.png">
-
-                <h3>Utility Tools</h3>
-
-                <p>
-                    Helpful daily-use tools designed to improve
-                    productivity and convenience.
-                </p>
-
-                <button>View Details</button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-<section id="about">
-
-    <div class="container">
-
-        <div class="glass about-card">
-
-            <h2>About SG Apps Tech</h2>
-
-            <p>
-                SG Apps Tech is an Android application publisher focused on
-                delivering high-quality mobile experiences. Our portfolio includes
-                wallpapers, creative tools, sticker collections and utility apps
-                designed to help users personalize and enhance their smartphones.
-            </p>
-
-            <p>
-                We continuously improve our applications through user feedback,
-                performance optimization and modern design standards.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-<section id="contact">
-
-    <div class="container">
-
-        <div class="section-title">
-            Contact Us
-        </div>
-
-        <div class="glass contact-card">
-
-            <form>
-
-                <input
-                type="text"
-                placeholder="Your Name"
-                required>
-
-                <input
-                type="email"
-                placeholder="Your Email"
-                required>
-
-                <textarea
-                rows="5"
-                placeholder="Your Message"></textarea>
-
-                <button type="submit">
-                    Send Message
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</section>
-
-<footer>
-
-    <div class="container">
-
-        <p>
-            © 2026 SG Apps Tech. All Rights Reserved.
-        </p>
-
-    </div>
-
-</footer>
-
-<script src="js/main.js"></script>
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8244291701379449"
-     crossorigin="anonymous"></script>
+</script>
 
 </body>
 </html>
