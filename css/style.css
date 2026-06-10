@@ -224,3 +224,22 @@ display:none;
 }
 
 }
+
+nav a{
+color:white;
+text-decoration:none;
+margin-left:0px;
+padding:8px 14px;
+border-radius:12px;
+transition:.3s;
+}
+
+nav a:hover{
+background:rgba(255,255,255,.08);
+}
+
+nav a.active{
+background:#3b82f6;
+color:white;
+box-shadow:0 0 20px rgba(59,130,246,.4);
+}
