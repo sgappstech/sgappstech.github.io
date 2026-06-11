@@ -243,3 +243,111 @@ background:#3b82f6;
 color:white;
 box-shadow:0 0 20px rgba(59,130,246,.4);
 }
+
+/* ===== MARQUEE ANIMATION ===== */
+.marquee{
+display:flex;
+gap:50px;
+white-space:nowrap;
+overflow:hidden;
+padding:15px;
+background:rgba(255,255,255,0.03);
+}
+
+.marquee span{
+animation:scroll 18s linear infinite;
+font-weight:600;
+}
+
+@keyframes scroll{
+from{transform:translateX(100%);}
+to{transform:translateX(-100%);}
+}
+
+/* ===== FEATURED CARD ===== */
+.featured{
+position:relative;
+border:1px solid rgba(59,130,246,.3);
+}
+
+.rank{
+position:absolute;
+top:15px;
+right:15px;
+background:#3b82f6;
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+}
+
+.metric{
+margin-top:10px;
+color:#3b82f6;
+font-weight:700;
+}
+
+.rating{
+margin-top:10px;
+font-size:18px;
+}
+
+/* hover animation */
+.app-card{
+transition:.3s;
+}
+
+.app-card:hover{
+transform:translateY(-10px);
+box-shadow:0 20px 40px rgba(59,130,246,.2);
+}
+
+/* contact better */
+.contact-card form input,
+.contact-card form textarea{
+outline:none;
+}
+
+.contact-card button:hover{
+transform:scale(1.05);
+transition:.3s;
+}
+
+.play-btn{
+display:inline-block;
+margin-top:15px;
+padding:12px 18px;
+border-radius:50px;
+background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+color:white;
+text-decoration:none;
+font-weight:600;
+transition:.3s;
+}
+
+.play-btn:hover{
+transform:scale(1.05);
+box-shadow:0 10px 25px rgba(59,130,246,.4);
+}
+
+body{
+background: radial-gradient(circle at top,#0a0a0a,#000);
+color:#e5e7eb;
+}
+
+.glass{
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(59,130,246,0.2);
+box-shadow:0 0 30px rgba(59,130,246,0.05);
+}
+
+.section-title{
+text-shadow:0 0 20px rgba(59,130,246,0.4);
+}
+
+h1,h2,h3{
+text-shadow:0 0 15px rgba(139,92,246,0.2);
+}
+
+.app-card:hover{
+box-shadow:0 0 30px rgba(59,130,246,0.4);
+}

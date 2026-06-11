@@ -1,29 +1,21 @@
-const counters = document.querySelectorAll('.counter');
+const counters = document.querySelectorAll(".counter");
 
 counters.forEach(counter => {
+counter.innerText = "0";
 
-    const update = () => {
+const updateCounter = () => {
+const target = +counter.getAttribute("data-target");
+const current = +counter.innerText;
 
-        const target = +counter.dataset.target;
-        const count = +counter.innerText;
+const increment = target / 200;
 
-        const speed = target / 100;
+if(current < target){
+counter.innerText = Math.ceil(current + increment);
+setTimeout(updateCounter, 20);
+} else {
+counter.innerText = target;
+}
+};
 
-        if(count < target){
-
-            counter.innerText =
-            Math.ceil(count + speed);
-
-            setTimeout(update,20);
-
-        }else{
-
-            counter.innerText = target;
-
-        }
-
-    };
-
-    update();
-
+updateCounter();
 });

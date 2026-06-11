@@ -76,8 +76,8 @@ playstore: "https://play.google.com/store/apps/details?id=com.sgapps.cute_baby_s
     name: "Animated Baby Stickers for WA",
     developer: "SG Apps Tech",
     rating: "4.8",
-    downloads: "8K+",
-    size: "5 MB",
+    downloads: "5K+",
+    size: "7 MB",
     icon: "https://lh3.googleusercontent.com/e4iVIPoJuFD1pqsZlnCVZyrllO6FLr1hr2cymn5v6p4GjVSElxYwOgwfCyH9qDsKbD1qnRWZugjabbdVK3Xg",
     description:
       "Animated baby stickers with fun reactions.",
