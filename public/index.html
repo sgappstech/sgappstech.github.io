@@ -298,6 +298,9 @@ function setView(view, cat) {
   if(view === 'home')   renderHome();
   else if(view === 'top') renderTopCharts('APPLICATION', 'TOP_FREE');
   else if(view === 'new') renderTopCharts('APPLICATION', 'NEW_FREE');
+  else if(cat === 'SGAPPS') {
+    renderOwnApps();
+  }
   else if(view === 'cat') renderCategory(cat);
   window.scrollTo(0,0);
 }
@@ -441,6 +444,34 @@ async function renderCategory(catId) {
   } catch(e) {
     const el = document.getElementById('catGridWrap');
     if(el) el.innerHTML = errorBanner(e.message);
+  }
+}
+
+async function renderOwnApps() {
+  const main = document.getElementById('main');
+
+  main.innerHTML = `
+    <div class="section-hd">
+      <div class="section-title">
+        <i class="ti ti-brand-android"></i>
+        SG Apps Tech Apps
+      </div>
+    </div>
+    <div id="ownAppsGrid">${skeletonGrid(12)}</div>
+  `;
+
+  try {
+    const r = await fetch('/api/sgappstech');
+    const d = await r.json();
+
+    document.getElementById('ownAppsGrid').innerHTML = `
+      <div class="app-grid">
+        ${d.results.map(appCard).join('')}
+      </div>
+    `;
+  } catch (e) {
+    document.getElementById('ownAppsGrid').innerHTML =
+      errorBanner(e.message);
   }
 }
 

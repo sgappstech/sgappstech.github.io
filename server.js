@@ -134,7 +134,7 @@ app.get('/api/reviews/:appId', async (req, res) => {
 app.get('/api/categories', (req, res) => {
   const cats = [
     { id: 'APPLICATION', label: 'All Apps', icon: 'ti-apps' },
-    { id: 'COMMUNICATION', label: 'Own Apps', icon: 'ti-mood-smile' },
+    { id: 'SGAPPS', label: 'Own Apps', icon: 'ti-mood-smile' },
     { id: 'GAME', label: 'Games', icon: 'ti-device-gamepad-2' },
     { id: 'COMMUNICATION', label: 'Social', icon: 'ti-messages' },
     { id: 'PERSONALIZATION', label: 'Personalization', icon: 'ti-messages' },
@@ -155,7 +155,7 @@ app.get('/api/categories', (req, res) => {
   res.json({ categories: cats });
 });
 
-app.get('/api/sgapps-stickers', async (req, res) => {
+app.get('/api/sgappstech', async (req, res) => {
   try {
     const results = await gplay.developer({
       devId: 'SG Apps Tech',
@@ -164,12 +164,12 @@ app.get('/api/sgapps-stickers', async (req, res) => {
       country: 'us'
     });
 
-    const stickerApps = results.filter(app =>
-      app.title?.toLowerCase().includes('sticker')
-    );
+    // const stickerApps = results.filter(app =>
+    //   app.title?.toLowerCase().includes('sticker')
+    // );
 
     res.json({
-      results: stickerApps.map(clean)
+      results: results.map(clean)
     });
 
   } catch (e) {
