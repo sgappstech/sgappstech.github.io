@@ -1,1 +1,0 @@
-console.log('SG Apps Tech');
