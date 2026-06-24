@@ -136,6 +136,7 @@ app.get('/api/categories', (req, res) => {
     { id: 'APPLICATION',        label: 'All Apps',      icon: 'ti-apps' },
     { id: 'GAME',               label: 'Games',         icon: 'ti-device-gamepad-2' },
     { id: 'COMMUNICATION',      label: 'Social',        icon: 'ti-messages' },
+        { id: 'PERSONALIZATION',      label: 'Personalization',        icon: 'ti-messages' },
     { id: 'TOOLS',              label: 'Tools',         icon: 'ti-tool' },
     { id: 'VIDEO_PLAYERS',      label: 'Media',         icon: 'ti-photo-video' },
     { id: 'PRODUCTIVITY',       label: 'Productivity',  icon: 'ti-checklist' },
