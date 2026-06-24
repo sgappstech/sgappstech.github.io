@@ -66,7 +66,7 @@ app.get('/api/search', async (req, res) => {
 
 // Top charts by category
 app.get('/api/top', async (req, res) => {
-  const { category = 'APPLICATION', collection = 'TOP_FREE', num = 30 } = req.query;
+  const { category = 'APPLICATION', collection = 'TOP_FREE', num = 3000 } = req.query;
   try {
     const results = await gplay.list({
       category:   gplay.category[category] || gplay.category.APPLICATION,
