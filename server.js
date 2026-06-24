@@ -133,10 +133,11 @@ app.get('/api/reviews/:appId', async (req, res) => {
 // Categories list
 app.get('/api/categories', (req, res) => {
   const cats = [
+    {id: 'OWN APPS', label: 'Stickers', icon: 'ti-mood-smile'},
     { id: 'APPLICATION',        label: 'All Apps',      icon: 'ti-apps' },
     { id: 'GAME',               label: 'Games',         icon: 'ti-device-gamepad-2' },
     { id: 'COMMUNICATION',      label: 'Social',        icon: 'ti-messages' },
-        { id: 'PERSONALIZATION',      label: 'Personalization',        icon: 'ti-messages' },
+    { id: 'PERSONALIZATION',      label: 'Personalization',        icon: 'ti-messages' },
     { id: 'TOOLS',              label: 'Tools',         icon: 'ti-tool' },
     { id: 'VIDEO_PLAYERS',      label: 'Media',         icon: 'ti-photo-video' },
     { id: 'PRODUCTIVITY',       label: 'Productivity',  icon: 'ti-checklist' },
@@ -149,12 +150,7 @@ app.get('/api/categories', (req, res) => {
     { id: 'SHOPPING',           label: 'Shopping',      icon: 'ti-shopping-cart' },
     { id: 'NEWS_AND_MAGAZINES', label: 'News',          icon: 'ti-news' },
     { id: 'SPORTS',             label: 'Sports',        icon: 'ti-ball-football' },
-    { id: 'FOOD_AND_DRINK',     label: 'Food & Drink',  icon: 'ti-soup' },
-    {
-  id: 'OWN APPS',
-  label: 'Stickers',
-  icon: 'ti-mood-smile'
-}
+    { id: 'FOOD_AND_DRINK',     label: 'Food & Drink',  icon: 'ti-soup' }
   ];
   res.json({ categories: cats });
 });
