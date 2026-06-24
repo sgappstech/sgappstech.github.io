@@ -134,7 +134,7 @@ app.get('/api/reviews/:appId', async (req, res) => {
 app.get('/api/categories', (req, res) => {
   const cats = [
     { id: 'APPLICATION', label: 'All Apps', icon: 'ti-apps' },
-    { id: 'OWN APPS', label: 'Stickers', icon: 'ti-mood-smile' },
+    { id: 'COMMUNICATION', label: 'Own Apps', icon: 'ti-mood-smile' },
     { id: 'GAME', label: 'Games', icon: 'ti-device-gamepad-2' },
     { id: 'COMMUNICATION', label: 'Social', icon: 'ti-messages' },
     { id: 'PERSONALIZATION', label: 'Personalization', icon: 'ti-messages' },
