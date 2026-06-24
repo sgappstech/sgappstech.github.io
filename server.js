@@ -13,28 +13,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 // ── helpers ──────────────────────────────────────────────────────────────────
 function clean(app) {
   return {
-    appId:       app.appId,
-    title:       app.title,
-    developer:   app.developer,
-    icon:        app.icon,
-    score:       app.score ? app.score.toFixed(1) : 'N/A',
-    ratings:     app.ratings  ? app.ratings.toLocaleString()  : '0',
-    installs:    app.installs || 'N/A',
-    price:       app.price === 0 ? 'Free' : `$${app.price}`,
-    free:        app.free,
-    genre:       app.genre || '',
-    genreId:     app.genreId || '',
-    summary:     app.summary || '',
+    appId: app.appId,
+    title: app.title,
+    developer: app.developer,
+    icon: app.icon,
+    score: app.score ? app.score.toFixed(1) : 'N/A',
+    ratings: app.ratings ? app.ratings.toLocaleString() : '0',
+    installs: app.installs || 'N/A',
+    price: app.price === 0 ? 'Free' : `$${app.price}`,
+    free: app.free,
+    genre: app.genre || '',
+    genreId: app.genreId || '',
+    summary: app.summary || '',
     description: app.description || '',
-    version:     app.version || 'N/A',
-    size:        app.size || 'N/A',
-    updated:     app.updated || '',
+    version: app.version || 'N/A',
+    size: app.size || 'N/A',
+    updated: app.updated || '',
     androidVersion: app.androidVersionText || app.androidVersion || 'N/A',
     screenshots: app.screenshots || [],
     headerImage: app.headerImage || '',
-    video:       app.video || '',
+    video: app.video || '',
     contentRating: app.contentRating || '',
-    url:         `https://play.google.com/store/apps/details?id=${app.appId}`,
+    url: `https://play.google.com/store/apps/details?id=${app.appId}`,
   };
 }
 
@@ -69,11 +69,11 @@ app.get('/api/top', async (req, res) => {
   const { category = 'APPLICATION', collection = 'TOP_FREE', num = 3000 } = req.query;
   try {
     const results = await gplay.list({
-      category:   gplay.category[category] || gplay.category.APPLICATION,
+      category: gplay.category[category] || gplay.category.APPLICATION,
       collection: gplay.collection[collection] || gplay.collection.TOP_FREE,
-      num:        parseInt(num),
-      lang:       'en',
-      country:    'us',
+      num: parseInt(num),
+      lang: 'en',
+      country: 'us',
     });
     res.json({ results: results.map(clean) });
   } catch (e) {
@@ -86,8 +86,8 @@ app.get('/api/top', async (req, res) => {
 app.get('/api/app/:appId', async (req, res) => {
   try {
     const result = await gplay.app({
-      appId:   req.params.appId,
-      lang:    'en',
+      appId: req.params.appId,
+      lang: 'en',
       country: 'us',
     });
     res.json(clean(result));
@@ -101,10 +101,10 @@ app.get('/api/app/:appId', async (req, res) => {
 app.get('/api/similar/:appId', async (req, res) => {
   try {
     const results = await gplay.similar({
-      appId:   req.params.appId,
-      lang:    'en',
+      appId: req.params.appId,
+      lang: 'en',
       country: 'us',
-      num:     12,
+      num: 12,
     });
     res.json({ results: results.map(clean) });
   } catch (e) {
@@ -117,11 +117,11 @@ app.get('/api/similar/:appId', async (req, res) => {
 app.get('/api/reviews/:appId', async (req, res) => {
   try {
     const { data } = await gplay.reviews({
-      appId:   req.params.appId,
-      lang:    'en',
+      appId: req.params.appId,
+      lang: 'en',
       country: 'us',
-      sort:    gplay.sort.HELPFULNESS,
-      num:     5,
+      sort: gplay.sort.HELPFULNESS,
+      num: 5,
     });
     res.json({ reviews: data });
   } catch (e) {
@@ -133,24 +133,24 @@ app.get('/api/reviews/:appId', async (req, res) => {
 // Categories list
 app.get('/api/categories', (req, res) => {
   const cats = [
-    {id: 'OWN APPS', label: 'Stickers', icon: 'ti-mood-smile'},
-    { id: 'APPLICATION',        label: 'All Apps',      icon: 'ti-apps' },
-    { id: 'GAME',               label: 'Games',         icon: 'ti-device-gamepad-2' },
-    { id: 'COMMUNICATION',      label: 'Social',        icon: 'ti-messages' },
-    { id: 'PERSONALIZATION',      label: 'Personalization',        icon: 'ti-messages' },
-    { id: 'TOOLS',              label: 'Tools',         icon: 'ti-tool' },
-    { id: 'VIDEO_PLAYERS',      label: 'Media',         icon: 'ti-photo-video' },
-    { id: 'PRODUCTIVITY',       label: 'Productivity',  icon: 'ti-checklist' },
-    { id: 'FINANCE',            label: 'Finance',       icon: 'ti-wallet' },
-    { id: 'HEALTH_AND_FITNESS', label: 'Health',        icon: 'ti-heartbeat' },
-    { id: 'EDUCATION',          label: 'Education',     icon: 'ti-school' },
-    { id: 'PHOTOGRAPHY',        label: 'Photography',   icon: 'ti-camera' },
-    { id: 'MUSIC_AND_AUDIO',    label: 'Music',         icon: 'ti-music' },
-    { id: 'TRAVEL_AND_LOCAL',   label: 'Travel',        icon: 'ti-map-2' },
-    { id: 'SHOPPING',           label: 'Shopping',      icon: 'ti-shopping-cart' },
-    { id: 'NEWS_AND_MAGAZINES', label: 'News',          icon: 'ti-news' },
-    { id: 'SPORTS',             label: 'Sports',        icon: 'ti-ball-football' },
-    { id: 'FOOD_AND_DRINK',     label: 'Food & Drink',  icon: 'ti-soup' }
+    { id: 'APPLICATION', label: 'All Apps', icon: 'ti-apps' },
+    { id: 'OWN APPS', label: 'Stickers', icon: 'ti-mood-smile' },
+    { id: 'GAME', label: 'Games', icon: 'ti-device-gamepad-2' },
+    { id: 'COMMUNICATION', label: 'Social', icon: 'ti-messages' },
+    { id: 'PERSONALIZATION', label: 'Personalization', icon: 'ti-messages' },
+    { id: 'TOOLS', label: 'Tools', icon: 'ti-tool' },
+    { id: 'VIDEO_PLAYERS', label: 'Media', icon: 'ti-photo-video' },
+    { id: 'PRODUCTIVITY', label: 'Productivity', icon: 'ti-checklist' },
+    { id: 'FINANCE', label: 'Finance', icon: 'ti-wallet' },
+    { id: 'HEALTH_AND_FITNESS', label: 'Health', icon: 'ti-heartbeat' },
+    { id: 'EDUCATION', label: 'Education', icon: 'ti-school' },
+    { id: 'PHOTOGRAPHY', label: 'Photography', icon: 'ti-camera' },
+    { id: 'MUSIC_AND_AUDIO', label: 'Music', icon: 'ti-music' },
+    { id: 'TRAVEL_AND_LOCAL', label: 'Travel', icon: 'ti-map-2' },
+    { id: 'SHOPPING', label: 'Shopping', icon: 'ti-shopping-cart' },
+    { id: 'NEWS_AND_MAGAZINES', label: 'News', icon: 'ti-news' },
+    { id: 'SPORTS', label: 'Sports', icon: 'ti-ball-football' },
+    { id: 'FOOD_AND_DRINK', label: 'Food & Drink', icon: 'ti-soup' }
   ];
   res.json({ categories: cats });
 });
