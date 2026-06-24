@@ -150,8 +150,35 @@ app.get('/api/categories', (req, res) => {
     { id: 'NEWS_AND_MAGAZINES', label: 'News',          icon: 'ti-news' },
     { id: 'SPORTS',             label: 'Sports',        icon: 'ti-ball-football' },
     { id: 'FOOD_AND_DRINK',     label: 'Food & Drink',  icon: 'ti-soup' },
+    {
+  id: 'STICKERS',
+  label: 'Stickers',
+  icon: 'ti-mood-smile'
+}
   ];
   res.json({ categories: cats });
+});
+
+app.get('/api/sgapps-stickers', async (req, res) => {
+  try {
+    const results = await gplay.developer({
+      devId: 'SG Apps Tech',
+      num: 200,
+      lang: 'en',
+      country: 'us'
+    });
+
+    const stickerApps = results.filter(app =>
+      app.title?.toLowerCase().includes('sticker')
+    );
+
+    res.json({
+      results: stickerApps.map(clean)
+    });
+
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 });
 
 app.listen(PORT, () => {
