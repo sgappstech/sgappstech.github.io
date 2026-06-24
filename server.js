@@ -151,7 +151,7 @@ app.get('/api/categories', (req, res) => {
     { id: 'SPORTS',             label: 'Sports',        icon: 'ti-ball-football' },
     { id: 'FOOD_AND_DRINK',     label: 'Food & Drink',  icon: 'ti-soup' },
     {
-  id: 'STICKERS',
+  id: 'OWN APPS',
   label: 'Stickers',
   icon: 'ti-mood-smile'
 }
