@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Downloader</title>
+    <meta charset="utf-8">
+    <style>
+        body{
+            font-family:Arial,sans-serif;
+            max-width:600px;
+            margin:50px auto;
+            text-align:center;
+        }
+
+        input{
+            width:100%;
+            padding:12px;
+            margin:10px 0;
+        }
+
+        button{
+            padding:12px 20px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Video Downloader</h2>
+
+<input
+    type="text"
+    id="url"
+    placeholder="Paste video URL">
+
+<button onclick="downloadVideo()">
+    Download
+</button>
+
+<script>
+function downloadVideo() {
+    const url = document.getElementById("url").value;
+
+    if (!url) {
+        alert("Enter a URL");
+        return;
+    }
+
+    window.location =
+        "/download?url=" +
+        encodeURIComponent(url);
+}
+</script>
+
+</body>
+</html>
