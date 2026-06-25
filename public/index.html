@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppVault - Android App Store</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F4F6F8;color:#1a1a1a;min-height:100vh}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header{background:#fff;border-bottom:1px solid #e0e0e0;padding:0 20px;display:flex;align-items:center;gap:14px;height:56px;position:sticky;top:0;z-index:200}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:18px;white-space:nowrap;color:#1A73E8;text-decoration:none}
+.logo-icon{width:32px;height:32px;background:#1A73E8;border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px}
+.logo span{color:#1a1a1a}
+
+.search-wrap{flex:1;max-width:540px;position:relative}
+.search-wrap i.search-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#888;font-size:17px;pointer-events:none}
+.search-wrap input{width:100%;background:#F1F3F4;border:1px solid #e0e0e0;border-radius:24px;padding:9px 44px 9px 38px;font-size:14px;outline:none;color:#1a1a1a;transition:border-color .15s,box-shadow .15s}
+.search-wrap input:focus{border-color:#1A73E8;box-shadow:0 0 0 3px rgba(26,115,232,.12);background:#fff}
+.search-wrap .clear-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:#888;font-size:16px;display:none;padding:2px}
+.search-wrap input:not(:placeholder-shown) ~ .clear-btn{display:block}
+
+.header-nav{display:flex;align-items:center;gap:6px;margin-left:auto}
+.nav-btn{display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:8px;font-size:13px;border:1px solid #dadce0;background:#fff;color:#444;transition:background .12s}
+.nav-btn:hover{background:#f1f3f4}
+.nav-btn.primary{background:#1A73E8;color:#fff;border-color:#1A73E8;font-weight:500}
+.nav-btn.primary:hover{background:#1557b0}
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+.layout{display:flex;min-height:calc(100vh - 56px)}
+
+/* ── Sidebar ─────────────────────────────────────────────────────────────── */
+.sidebar{width:216px;flex-shrink:0;background:#fff;border-right:1px solid #e8eaed;padding:12px 0 24px;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto}
+.sidebar-label{font-size:10.5px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.08em;padding:12px 16px 4px}
+.sidebar-item{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:13.5px;cursor:pointer;color:#555;border-left:3px solid transparent;transition:all .1s;user-select:none}
+.sidebar-item:hover{background:#f8f9fa;color:#1a1a1a}
+.sidebar-item.active{background:#E8F0FE;color:#1A73E8;border-left-color:#1A73E8;font-weight:600}
+.sidebar-item i{font-size:16px;width:20px;text-align:center;flex-shrink:0}
+.sidebar-divider{border:none;border-top:1px solid #f1f3f4;margin:8px 0}
+.collection-group{padding:4px 0}
+
+/* ── Main ────────────────────────────────────────────────────────────────── */
+.main{flex:1;min-width:0;padding:22px 24px 40px}
+
+/* ── Hero Banner ─────────────────────────────────────────────────────────── */
+.hero{background:linear-gradient(135deg,#1A73E8,#0D47A1);border-radius:14px;padding:28px 32px;color:#fff;margin-bottom:26px;display:flex;align-items:center;justify-content:space-between;gap:20px;overflow:hidden;position:relative}
+.hero::after{content:'';position:absolute;right:-30px;top:-30px;width:200px;height:200px;background:rgba(255,255,255,.06);border-radius:50%}
+.hero h1{font-size:22px;font-weight:700;margin-bottom:6px}
+.hero p{font-size:13.5px;opacity:.88;line-height:1.65;max-width:400px}
+.hero-btns{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.hero-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13px;cursor:pointer;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);color:#fff;transition:all .12s}
+.hero-btn:hover{background:rgba(255,255,255,.25)}
+.hero-btn.solid{background:#fff;color:#1A73E8;border-color:#fff;font-weight:600}
+.hero-btn.solid:hover{background:#e8f0fe}
+.hero-art{font-size:80px;opacity:.12;flex-shrink:0;line-height:1;z-index:1}
+
+/* ── Section headers ─────────────────────────────────────────────────────── */
+.section-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;margin-top:28px}
+.section-hd:first-child{margin-top:0}
+.section-title{font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px}
+.section-title i{font-size:18px;color:#1A73E8}
+.count-badge{font-size:12px;font-weight:500;color:#888;background:#f1f3f4;padding:2px 8px;border-radius:10px}
+.view-all{font-size:13px;color:#1A73E8;cursor:pointer;display:flex;align-items:center;gap:3px;border:none;background:none;font-family:inherit}
+.view-all:hover{text-decoration:underline}
+
+/* ── Category chips ──────────────────────────────────────────────────────── */
+.cat-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.cat-chip{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;border:1px solid #dadce0;font-size:13px;cursor:pointer;background:#fff;color:#555;transition:all .12s;white-space:nowrap}
+.cat-chip:hover{border-color:#1A73E8;color:#1A73E8;background:#E8F0FE}
+.cat-chip i{font-size:14px}
+
+/* ── App Grid ────────────────────────────────────────────────────────────── */
+.app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:13px}
+.app-card{background:#fff;border:1px solid #e8eaed;border-radius:12px;padding:14px 12px 12px;cursor:pointer;transition:box-shadow .15s,border-color .15s,transform .1s;position:relative}
+.app-card:hover{box-shadow:0 3px 14px rgba(0,0,0,.11);border-color:#c5cad1;transform:translateY(-1px)}
+.app-card-icon{width:56px;height:56px;border-radius:14px;object-fit:cover;margin-bottom:10px;background:#f1f3f4}
+.app-card-icon-placeholder{width:56px;height:56px;border-radius:14px;margin-bottom:10px;background:linear-gradient(135deg,#1A73E8,#0D47A1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:700}
+.app-card-name{font-size:13px;font-weight:600;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.app-card-dev{font-size:11.5px;color:#888;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.app-card-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.rating{display:flex;align-items:center;gap:3px;font-size:12px;color:#555}
+.rating i{font-size:11px;color:#F9AB00}
+.app-price{font-size:12px;font-weight:600;color:#1A73E8}
+.app-price.free{color:#0a8f5c}
+.btn-dl{width:100%;padding:7px;background:#E8F0FE;color:#1A73E8;border:none;border-radius:8px;font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:5px;transition:background .12s}
+.btn-dl:hover{background:#d2e3fc}
+.btn-dl.success{background:#d4edda;color:#155724;pointer-events:none}
+.badge{position:absolute;top:8px;right:8px;font-size:10px;padding:2px 6px;border-radius:8px;font-weight:700}
+.badge-new{background:#E8F0FE;color:#1A73E8}
+.badge-top{background:#FEF3E2;color:#B55A00}
+.badge-free{background:#E6F4EA;color:#137333}
+
+/* ── Top Charts List ─────────────────────────────────────────────────────── */
+.top-list{background:#fff;border:1px solid #e8eaed;border-radius:12px;overflow:hidden}
+.top-item{display:flex;align-items:center;gap:13px;padding:12px 16px;cursor:pointer;transition:background .1s}
+.top-item:hover{background:#f8f9fa}
+.top-item+.top-item{border-top:1px solid #f1f3f4}
+.top-rank{font-size:16px;font-weight:700;width:26px;text-align:center;flex-shrink:0;color:#ccc}
+.top-rank.r1{color:#F9AB00}
+.top-rank.r2{color:#9E9E9E}
+.top-rank.r3{color:#CD7F32}
+.top-icon{width:44px;height:44px;border-radius:11px;object-fit:cover;flex-shrink:0;background:#f1f3f4}
+.top-icon-ph{width:44px;height:44px;border-radius:11px;flex-shrink:0;background:linear-gradient(135deg,#1A73E8,#0D47A1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;font-weight:700}
+.top-info{flex:1;min-width:0}
+.top-name{font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top-sub{font-size:12px;color:#888;margin-top:1px;display:flex;align-items:center;gap:6px}
+.top-actions{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.btn-small-dl{padding:6px 13px;background:#E8F0FE;color:#1A73E8;border:none;border-radius:8px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:4px;transition:background .12s}
+.btn-small-dl:hover{background:#d2e3fc}
+
+/* ── Detail Modal ────────────────────────────────────────────────────────── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:400;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto}
+.overlay.open{display:flex}
+.detail-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;margin:auto;box-shadow:0 12px 48px rgba(0,0,0,.2);overflow:hidden}
+.detail-hero{background:linear-gradient(135deg,#1A73E8,#0D47A1);padding:24px;color:#fff;position:relative}
+.detail-hero-inner{display:flex;gap:18px;align-items:flex-start}
+.detail-icon{width:80px;height:80px;border-radius:20px;object-fit:cover;flex-shrink:0;border:3px solid rgba(255,255,255,.3);background:#fff}
+.detail-icon-ph{width:80px;height:80px;border-radius:20px;flex-shrink:0;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:700;border:3px solid rgba(255,255,255,.3)}
+.detail-title{font-size:20px;font-weight:700;margin-bottom:4px}
+.detail-dev{font-size:13px;opacity:.85;margin-bottom:8px}
+.detail-tags{display:flex;gap:6px;flex-wrap:wrap}
+.detail-tag{font-size:11.5px;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3)}
+.close-modal{position:absolute;top:14px;right:14px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:background .12s}
+.close-modal:hover{background:rgba(255,255,255,.35)}
+
+.detail-body{padding:22px}
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+.stat-card{text-align:center;background:#F8F9FA;border-radius:10px;padding:13px 6px}
+.stat-val{font-size:17px;font-weight:700;display:block;color:#1a1a1a}
+.stat-lbl{font-size:11.5px;color:#888;margin-top:2px;display:block}
+
+.dl-section{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;margin-bottom:22px}
+.btn-dl-big{padding:12px 20px;background:#1A73E8;color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .15s;width:100%}
+.btn-dl-big:hover{background:#1557b0}
+.btn-play{padding:12px 16px;background:#34A853;color:#fff;border:none;border-radius:10px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;white-space:nowrap;transition:background .15s}
+.btn-play:hover{background:#2d8f47}
+
+.detail-section-title{font-size:14px;font-weight:700;margin-bottom:10px;color:#1a1a1a}
+.detail-desc{font-size:13.5px;line-height:1.75;color:#555;margin-bottom:22px;white-space:pre-line}
+.detail-desc.clamped{display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.read-more{font-size:13px;color:#1A73E8;border:none;background:none;padding:0;margin-bottom:22px;display:block;cursor:pointer;font-family:inherit}
+.read-more:hover{text-decoration:underline}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.info-row{background:#F8F9FA;border-radius:9px;padding:11px 13px}
+.info-key{font-size:11px;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.info-val{font-size:13px;font-weight:600;color:#1a1a1a}
+
+.screenshots-row{display:flex;gap:10px;overflow-x:auto;padding-bottom:8px;margin-bottom:22px;scrollbar-width:thin}
+.screenshots-row img{height:180px;border-radius:10px;flex-shrink:0;border:1px solid #e0e0e0;object-fit:cover}
+
+.reviews-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px}
+.review-card{background:#F8F9FA;border-radius:10px;padding:12px 14px}
+.review-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.review-avatar{width:30px;height:30px;border-radius:50%;background:#1A73E8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.review-name{font-size:13px;font-weight:600}
+.review-stars{display:flex;gap:1px}
+.review-stars i{font-size:11px;color:#F9AB00}
+.review-text{font-size:13px;color:#555;line-height:1.6}
+
+.similar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.similar-card{cursor:pointer;text-align:center;padding:10px 6px;border-radius:10px;transition:background .1s}
+.similar-card:hover{background:#f1f3f4}
+.similar-icon{width:52px;height:52px;border-radius:14px;object-fit:cover;margin:0 auto 6px;background:#f1f3f4}
+.similar-icon-ph{width:52px;height:52px;border-radius:14px;margin:0 auto 6px;background:linear-gradient(135deg,#1A73E8,#0D47A1);display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+.similar-name{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.similar-rating{font-size:11px;color:#888;display:flex;align-items:center;justify-content:center;gap:2px}
+.similar-rating i{font-size:10px;color:#F9AB00}
+
+/* ── Loading skeleton ────────────────────────────────────────────────────── */
+.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skel-card{background:#fff;border:1px solid #e8eaed;border-radius:12px;padding:14px 12px}
+.skel-icon{width:56px;height:56px;border-radius:14px;margin-bottom:10px}
+.skel-line{height:13px;border-radius:6px;margin-bottom:6px}
+.skel-line.w80{width:80%}
+.skel-line.w60{width:60%}
+.skel-line.w40{width:40%}
+
+/* ── Toast ───────────────────────────────────────────────────────────────── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:#323232;color:#fff;padding:10px 22px;border-radius:8px;font-size:13.5px;z-index:600;transition:transform .3s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;display:flex;align-items:center;gap:8px}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── Empty state ─────────────────────────────────────────────────────────── */
+.empty-state{text-align:center;padding:60px 20px;color:#bbb}
+.empty-state i{font-size:52px;display:block;margin-bottom:14px;color:#ddd}
+.empty-state h3{font-size:16px;color:#888;margin-bottom:6px}
+.empty-state p{font-size:13.5px}
+
+/* ── Error banner ────────────────────────────────────────────────────────── */
+.error-banner{background:#FFF3CD;border:1px solid #FFEAA7;border-radius:10px;padding:14px 18px;font-size:13.5px;color:#856404;display:flex;align-items:center;gap:10px;margin-bottom:20px}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media(max-width:768px){
+  .sidebar{display:none}
+  .main{padding:14px}
+  .header{padding:0 12px}
+  .logo span{display:none}
+  .stat-row{grid-template-columns:repeat(2,1fr)}
+  .info-grid{grid-template-columns:1fr}
+  .dl-section{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── Header ──────────────────────────────────────────────────────────────── -->
+<header class="header">
+  <a class="logo" href="#" onclick="goHome()">
+    <div class="logo-icon"><i class="ti ti-brand-android"></i></div>
+    App<span>Vault</span>
+  </a>
+  <div class="search-wrap">
+    <i class="ti ti-search search-icon"></i>
+    <input type="text" id="searchInput" placeholder="Search apps, games, tools…"
+           oninput="handleSearchInput()" onkeydown="if(event.key==='Enter')doSearch()">
+    <button class="clear-btn ti ti-x" onclick="clearSearch()"></button>
+  </div>
+  <div class="header-nav">
+    <button class="nav-btn" onclick="setView('top',null)"><i class="ti ti-chart-bar"></i> Top Charts</button>
+    <button class="nav-btn primary"><i class="ti ti-user"></i> Sign in</button>
+  </div>
+</header>
+
+<!-- ── Layout ───────────────────────────────────────────────────────────────── -->
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-label">Discover</div>
+    <div class="sidebar-item active" data-view="home" onclick="setView('home',null)"><i class="ti ti-home"></i>Home</div>
+    <div class="sidebar-item" data-view="top" onclick="setView('top',null)"><i class="ti ti-chart-bar"></i>Top Charts</div>
+    <div class="sidebar-item" data-view="new" onclick="setView('new',null)"><i class="ti ti-sparkles"></i>New Releases</div>
+    <hr class="sidebar-divider">
+    <div class="sidebar-label">Categories</div>
+    <div id="catNav">
+      <!-- injected by JS -->
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main" id="main"></main>
+</div>
+
+<!-- ── App Detail Modal ──────────────────────────────────────────────────────── -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="detail-modal" id="detailModal"></div>
+</div>
+
+<!-- ── Toast ─────────────────────────────────────────────────────────────────── -->
+<div class="toast" id="toast"><i class="ti ti-check"></i><span id="toastMsg"></span></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+const API = '';  // same origin
+let currentView = 'home';
+let currentCat  = null;
+let searchTimer = null;
+let categories  = [];
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+(async function init() {
+  await loadCategories();
+  renderHome();
+})();
+
+// ── Categories ─────────────────────────────────────────────────────────────────
+async function loadCategories() {
+  try {
+    const r = await fetch(`${API}/api/categories`);
+    const d = await r.json();
+    categories = d.categories;
+    const nav = document.getElementById('catNav');
+    nav.innerHTML = categories.map(c => `
+      <div class="sidebar-item" data-view="cat" data-cat="${c.id}" onclick="setView('cat','${c.id}')">
+        <i class="ti ${c.icon}"></i>${c.label}
+      </div>`).join('');
+  } catch(e) { console.error(e); }
+}
+
+// ── Navigation ─────────────────────────────────────────────────────────────────
+function setView(view, cat) {
+  currentView = view;
+  currentCat  = cat;
+  document.getElementById('searchInput').value = '';
+  document.querySelectorAll('.sidebar-item').forEach(el => {
+    el.classList.toggle('active',
+      el.dataset.view === view && (view !== 'cat' || el.dataset.cat === cat));
+  });
+  if(view === 'home')   renderHome();
+  else if(view === 'top') renderTopCharts('APPLICATION', 'TOP_FREE');
+  else if(view === 'new') renderTopCharts('APPLICATION', 'NEW_FREE');
+  else if(view === 'cat') renderCategory(cat);
+  window.scrollTo(0,0);
+}
+
+function goHome() { setView('home', null); return false; }
+
+// ── Search ─────────────────────────────────────────────────────────────────────
+function handleSearchInput() {
+  clearTimeout(searchTimer);
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) { setView('home',null); return; }
+  searchTimer = setTimeout(() => doSearch(), 420);
+}
+
+async function doSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (!q) return;
+  currentView = 'search';
+  document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+  const main = document.getElementById('main');
+  main.innerHTML = skeletonGrid(12) + '';
+  renderSectionHeader(main, `Search results for "${q}"`, null, '');
+  try {
+    const r = await fetch(`${API}/api/search?q=${encodeURIComponent(q)}&num=24`);
+    const d = await r.json();
+    if(d.error) throw new Error(d.error);
+    main.innerHTML = `
+      <div class="section-hd">
+        <div class="section-title"><i class="ti ti-search"></i>Results for "${q}" <span class="count-badge">${d.results.length}</span></div>
+      </div>
+      ${d.results.length === 0 ? emptyState('No apps found', 'Try different keywords') : ''}
+      <div class="app-grid">${d.results.map(appCard).join('')}</div>`;
+  } catch(e) {
+    main.innerHTML = errorBanner(e.message);
+  }
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  setView('home', null);
+}
+
+// ── Home ───────────────────────────────────────────────────────────────────────
+async function renderHome() {
+  const main = document.getElementById('main');
+  main.innerHTML = `
+    <div class="hero">
+      <div>
+        <h1>Download Android Apps & Games</h1>
+        <p>Browse millions of free and paid apps, games, tools and more — all pulled live from the Google Play Store.</p>
+        <div class="hero-btns">
+          <button class="hero-btn solid" onclick="setView('top',null)"><i class="ti ti-chart-bar"></i> Top Charts</button>
+          <button class="hero-btn" onclick="setView('new',null)"><i class="ti ti-sparkles"></i> New Releases</button>
+        </div>
+      </div>
+      <div class="hero-art">📱</div>
+    </div>
+
+    <div class="section-hd">
+      <div class="section-title"><i class="ti ti-layout-grid"></i>Browse Categories</div>
+    </div>
+    <div class="cat-chips">
+      ${categories.map(c=>`<div class="cat-chip" onclick="setView('cat','${c.id}')"><i class="ti ${c.icon}"></i>${c.label}</div>`).join('')}
+    </div>
+
+    <div class="section-hd" style="margin-top:28px">
+      <div class="section-title"><i class="ti ti-chart-bar"></i>Top Free Apps</div>
+      <button class="view-all" onclick="setView('top',null)">View all <i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div id="topFreeGrid">${skeletonGrid(6)}</div>
+
+    <div class="section-hd">
+      <div class="section-title"><i class="ti ti-device-gamepad-2"></i>Top Games</div>
+      <button class="view-all" onclick="setView('cat','GAME')">View all <i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div id="topGamesGrid">${skeletonGrid(6)}</div>
+
+    <div class="section-hd">
+      <div class="section-title"><i class="ti ti-sparkles"></i>New Releases</div>
+      <button class="view-all" onclick="setView('new',null)">View all <i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div id="newGrid">${skeletonGrid(6)}</div>
+  `;
+
+  // load sections in parallel
+  Promise.all([
+    fetchList('APPLICATION','TOP_FREE',6).then(apps => {
+      const el = document.getElementById('topFreeGrid');
+      if(el) el.innerHTML = `<div class="app-grid">${apps.map(appCard).join('')}</div>`;
+    }),
+    fetchList('GAME','TOP_FREE',6).then(apps => {
+      const el = document.getElementById('topGamesGrid');
+      if(el) el.innerHTML = `<div class="app-grid">${apps.map(appCard).join('')}</div>`;
+    }),
+    fetchList('APPLICATION','NEW_FREE',6).then(apps => {
+      const el = document.getElementById('newGrid');
+      if(el) el.innerHTML = `<div class="app-grid">${apps.map(appCard).join('')}</div>`;
+    }),
+  ]).catch(console.error);
+}
+
+// ── Top Charts ─────────────────────────────────────────────────────────────────
+async function renderTopCharts(category, collection) {
+  const main = document.getElementById('main');
+  const colLabel = collection === 'NEW_FREE' ? 'New Releases' : 'Top Free';
+  main.innerHTML = `
+    <div class="section-hd">
+      <div class="section-title"><i class="ti ti-chart-bar"></i>${colLabel}</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:18px">
+      ${['TOP_FREE','TOP_PAID','NEW_FREE','NEW_PAID'].map(c=>`
+        <button class="hero-btn ${c===collection?'solid':''}" style="color:${c===collection?'#1A73E8':'#555'};background:${c===collection?'#E8F0FE':'#fff'};border-color:#dadce0;padding:6px 13px;font-size:12.5px" onclick="renderTopCharts('${category}','${c}')">
+          ${c.replace('_',' ').toLowerCase().replace(/\b\w/g,x=>x.toUpperCase())}
+        </button>`).join('')}
+    </div>
+    <div id="topListWrap">${skeletonList(20)}</div>`;
+
+  try {
+    const apps = await fetchList(category, collection, 30);
+    const el = document.getElementById('topListWrap');
+    if(el) el.innerHTML = `<div class="top-list">${apps.map((app,i)=>topItem(app,i)).join('')}</div>`;
+  } catch(e) {
+    const el = document.getElementById('topListWrap');
+    if(el) el.innerHTML = errorBanner(e.message);
+  }
+}
+
+// ── Category ───────────────────────────────────────────────────────────────────
+async function renderCategory(catId) {
+  const main = document.getElementById('main');
+  const cat = categories.find(c=>c.id===catId) || { label: catId, icon:'ti-apps' };
+  main.innerHTML = `
+    <div class="section-hd">
+      <div class="section-title"><i class="ti ${cat.icon}"></i>${cat.label}</div>
+    </div>
+    <div id="catGridWrap">${skeletonGrid(18)}</div>`;
+  try {
+    const apps = await fetchList(catId, 'TOP_FREE', 30);
+    const el = document.getElementById('catGridWrap');
+    if(el) el.innerHTML = `<div class="app-grid">${apps.map(appCard).join('')}</div>`;
+  } catch(e) {
+    const el = document.getElementById('catGridWrap');
+    if(el) el.innerHTML = errorBanner(e.message);
+  }
+}
+
+// ── Fetch helpers ──────────────────────────────────────────────────────────────
+async function fetchList(category, collection, num) {
+  const r = await fetch(`${API}/api/top?category=${category}&collection=${collection}&num=${num}`);
+  const d = await r.json();
+  if(d.error) throw new Error(d.error);
+  return d.results;
+}
+
+// ── App Card ───────────────────────────────────────────────────────────────────
+function appCard(app) {
+  const initial = (app.title||'?')[0].toUpperCase();
+  const iconHtml = app.icon
+    ? `<img class="app-card-icon" src="${app.icon}" alt="${esc(app.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    + `<div class="app-card-icon-placeholder" style="display:none">${initial}</div>`
+    : `<div class="app-card-icon-placeholder">${initial}</div>`;
+  const isFree = app.price === 'Free';
+  return `
+    <div class="app-card" onclick="openDetail('${esc(app.appId)}')">
+      ${isFree ? '<span class="badge badge-free">FREE</span>' : `<span class="badge badge-top">${app.price}</span>`}
+      ${iconHtml}
+      <div class="app-card-name">${esc(app.title)}</div>
+      <div class="app-card-dev">${esc(app.developer)}</div>
+      <div class="app-card-meta">
+        <div class="rating"><i class="ti ti-star-filled"></i>${app.score}</div>
+        <div class="app-price ${isFree?'free':''}">${app.price}</div>
+      </div>
+      <button class="btn-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}')">
+        <i class="ti ti-download"></i> Download
+      </button>
+    </div>`;
+}
+
+// ── Top Chart Item ─────────────────────────────────────────────────────────────
+function topItem(app, i) {
+  const initial = (app.title||'?')[0].toUpperCase();
+  const rankClass = i===0?'r1':i===1?'r2':i===2?'r3':'';
+  const iconHtml = app.icon
+    ? `<img class="top-icon" src="${app.icon}" alt="${esc(app.title)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    + `<div class="top-icon-ph" style="display:none">${initial}</div>`
+    : `<div class="top-icon-ph">${initial}</div>`;
+  return `
+    <div class="top-item" onclick="openDetail('${esc(app.appId)}')">
+      <span class="top-rank ${rankClass}">${i+1}</span>
+      ${iconHtml}
+      <div class="top-info">
+        <div class="top-name">${esc(app.title)}</div>
+        <div class="top-sub">
+          <span><i class="ti ti-star-filled" style="color:#F9AB00;font-size:11px"></i> ${app.score}</span>
+          <span>·</span><span>${esc(app.genre)}</span>
+          <span>·</span><span>${app.installs}</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span style="font-size:12px;font-weight:600;color:${app.price==='Free'?'#0a8f5c':'#1A73E8'}">${app.price}</span>
+        <button class="btn-small-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}')">
+          <i class="ti ti-download"></i> APK
+        </button>
+      </div>
+    </div>`;
+}
+
+// ── App Detail ─────────────────────────────────────────────────────────────────
+async function openDetail(appId) {
+  const overlay = document.getElementById('overlay');
+  const modal   = document.getElementById('detailModal');
+  overlay.classList.add('open');
+  modal.innerHTML = `<div style="padding:40px;text-align:center;color:#888">
+    <i class="ti ti-loader-2" style="font-size:32px;display:block;margin-bottom:10px;animation:spin 1s linear infinite"></i>
+    Loading app details…
+  </div>
+  <style>@keyframes spin{to{transform:rotate(360deg)}}</style>`;
+
+  try {
+    const [appRes, reviewRes] = await Promise.all([
+      fetch(`${API}/api/app/${encodeURIComponent(appId)}`),
+      fetch(`${API}/api/reviews/${encodeURIComponent(appId)}`),
+    ]);
+    const app     = await appRes.json();
+    const revData = await reviewRes.json().catch(()=>({reviews:[]}));
+    if(app.error) throw new Error(app.error);
+
+    const initial   = (app.title||'?')[0].toUpperCase();
+    const isFree    = app.price === 'Free';
+    const iconHtml  = app.icon
+      ? `<img class="detail-icon" src="${app.icon}" alt="${esc(app.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+      + `<div class="detail-icon-ph" style="display:none">${initial}</div>`
+      : `<div class="detail-icon-ph">${initial}</div>`;
+
+    const screenshots = (app.screenshots||[]).slice(0,8).map(s=>
+      `<img src="${s}" alt="screenshot" loading="lazy">`).join('');
+
+    const reviews = (revData.reviews||[]).slice(0,3).map(r=>`
+      <div class="review-card">
+        <div class="review-head">
+          <div class="review-avatar">${(r.userName||'U')[0].toUpperCase()}</div>
+          <div>
+            <div class="review-name">${esc(r.userName||'User')}</div>
+            <div class="review-stars">${'<i class="ti ti-star-filled"></i>'.repeat(r.score||5)}</div>
+          </div>
+        </div>
+        <div class="review-text">${esc((r.text||'').substring(0,200))}${(r.text||'').length>200?'…':''}</div>
+      </div>`).join('');
+
+    modal.innerHTML = `
+      <div class="detail-hero">
+        <button class="close-modal" onclick="closeDetail()"><i class="ti ti-x"></i></button>
+        <div class="detail-hero-inner">
+          ${iconHtml}
+          <div>
+            <div class="detail-title">${esc(app.title)}</div>
+            <div class="detail-dev">by ${esc(app.developer)}</div>
+            <div class="detail-tags">
+              <span class="detail-tag">${isFree?'Free':app.price}</span>
+              <span class="detail-tag">${esc(app.genre)}</span>
+              <span class="detail-tag">${esc(app.contentRating)}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="detail-body">
+        <div class="stat-row">
+          <div class="stat-card"><span class="stat-val">⭐ ${app.score}</span><span class="stat-lbl">Rating</span></div>
+          <div class="stat-card"><span class="stat-val">${app.installs}</span><span class="stat-lbl">Installs</span></div>
+          <div class="stat-card"><span class="stat-val">${app.size||'—'}</span><span class="stat-lbl">Size</span></div>
+          <div class="stat-card"><span class="stat-val">${app.version||'—'}</span><span class="stat-lbl">Version</span></div>
+        </div>
+
+        <div class="dl-section">
+          <button class="btn-dl-big" onclick="quickDownload(this,'${esc(app.title)}')">
+            <i class="ti ti-download"></i> Download APK
+          </button>
+          <a href="${app.url}" target="_blank" rel="noopener">
+            <button class="btn-play"><i class="ti ti-brand-google-play"></i> Play Store</button>
+          </a>
+        </div>
+
+        <div class="detail-section-title">About this app</div>
+        <div class="detail-desc clamped" id="descText">${esc(app.description||app.summary||'No description available.')}</div>
+        <button class="read-more" id="readMoreBtn" onclick="toggleDesc()">Read more ▼</button>
+
+        ${screenshots ? `
+        <div class="detail-section-title">Screenshots</div>
+        <div class="screenshots-row">${screenshots}</div>` : ''}
+
+        <div class="detail-section-title">App info</div>
+        <div class="info-grid">
+          <div class="info-row"><div class="info-key">Developer</div><div class="info-val">${esc(app.developer)}</div></div>
+          <div class="info-row"><div class="info-key">Version</div><div class="info-val">${esc(app.version||'N/A')}</div></div>
+          <div class="info-row"><div class="info-key">Requires Android</div><div class="info-val">${esc(app.androidVersion||'N/A')}</div></div>
+          <div class="info-row"><div class="info-key">Content Rating</div><div class="info-val">${esc(app.contentRating||'N/A')}</div></div>
+          <div class="info-row"><div class="info-key">Category</div><div class="info-val">${esc(app.genre||'N/A')}</div></div>
+          <div class="info-row"><div class="info-key">Price</div><div class="info-val">${esc(app.price)}</div></div>
+        </div>
+
+        ${reviews ? `
+        <div class="detail-section-title">User Reviews</div>
+        <div class="reviews-list">${reviews}</div>` : ''}
+
+        <div id="similarWrap"></div>
+      </div>`;
+
+    // load similar apps
+    fetch(`${API}/api/similar/${encodeURIComponent(appId)}`)
+      .then(r=>r.json())
+      .then(d=>{
+        const el = document.getElementById('similarWrap');
+        if(!el||!d.results||!d.results.length) return;
+        el.innerHTML = `
+          <div class="detail-section-title" style="margin-top:8px">Similar Apps</div>
+          <div class="similar-grid">${d.results.map(a=>{
+            const ini = (a.title||'?')[0].toUpperCase();
+            const ico = a.icon
+              ? `<img class="similar-icon" src="${a.icon}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="similar-icon-ph" style="display:none">${ini}</div>`
+              : `<div class="similar-icon-ph">${ini}</div>`;
+            return `<div class="similar-card" onclick="closeDetail();setTimeout(()=>openDetail('${esc(a.appId)}'),200)">
+              ${ico}
+              <div class="similar-name">${esc(a.title)}</div>
+              <div class="similar-rating"><i class="ti ti-star-filled"></i>${a.score}</div>
+            </div>`;
+          }).join('')}</div>`;
+      }).catch(()=>{});
+
+  } catch(e) {
+    modal.innerHTML = `${errorBanner(e.message)}<button class="btn-dl" style="margin:0 22px 22px;width:calc(100%-44px)" onclick="closeDetail()">Close</button>`;
+  }
+}
+
+function closeDetail() {
+  document.getElementById('overlay').classList.remove('open');
+}
+
+function handleOverlayClick(e) {
+  if(e.target === document.getElementById('overlay')) closeDetail();
+}
+
+function toggleDesc() {
+  const el  = document.getElementById('descText');
+  const btn = document.getElementById('readMoreBtn');
+  if(!el) return;
+  el.classList.toggle('clamped');
+  btn.textContent = el.classList.contains('clamped') ? 'Read more ▼' : 'Show less ▲';
+}
+
+// ── Download ───────────────────────────────────────────────────────────────────
+function quickDownload(btn, name) {
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<i class="ti ti-check"></i> Downloading…';
+  btn.classList.add('success');
+  setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('success'); }, 2200);
+  showToast(`Downloading ${name}…`);
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+// ── Skeleton loaders ───────────────────────────────────────────────────────────
+function skeletonGrid(n) {
+  return `<div class="app-grid">${Array(n).fill(`
+    <div class="skel-card">
+      <div class="skeleton skel-icon"></div>
+      <div class="skeleton skel-line w80"></div>
+      <div class="skeleton skel-line w60"></div>
+      <div class="skeleton skel-line w40"></div>
+    </div>`).join('')}</div>`;
+}
+
+function skeletonList(n) {
+  return `<div class="top-list">${Array(n).fill(`
+    <div class="top-item">
+      <div class="skeleton" style="width:26px;height:20px;border-radius:4px"></div>
+      <div class="skeleton top-icon"></div>
+      <div style="flex:1"><div class="skeleton skel-line w80" style="margin-bottom:6px"></div><div class="skeleton skel-line w50"></div></div>
+    </div>`).join('')}</div>`;
+}
+
+// ── Utilities ──────────────────────────────────────────────────────────────────
+function esc(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+function errorBanner(msg) {
+  return `<div class="error-banner"><i class="ti ti-alert-triangle" style="font-size:18px;flex-shrink:0"></i>
+    <div><strong>Could not load apps.</strong> Make sure the server is running.<br>
+    <span style="font-size:12px;opacity:.75">${esc(msg)}</span></div></div>`;
+}
+
+function emptyState(title, sub) {
+  return `<div class="empty-state"><i class="ti ti-search-off"></i><h3>${title}</h3><p>${sub}</p></div>`;
+}
+</script>
+</body>
+</html>
