@@ -551,7 +551,7 @@ function appCard(app) {
         <div class="rating"><i class="ti ti-star-filled"></i>${app.score}</div>
         <div class="app-price ${isFree?'free':''}">${app.price}</div>
       </div>
-      <button class="btn-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}')">
+      <button class="btn-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}','${esc(app.url)}')">
         <i class="ti ti-download"></i> Download
       </button>
     </div>`;
@@ -579,7 +579,7 @@ function topItem(app, i) {
       </div>
       <div class="top-actions">
         <span style="font-size:12px;font-weight:600;color:${app.price==='Free'?'#00c2a0':'#6c63ff'}">${app.price}</span>
-        <button class="btn-small-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}')">
+        <button class="btn-small-dl" onclick="event.stopPropagation();quickDownload(this,'${esc(app.title)}','${esc(app.url)}')">
           <i class="ti ti-download"></i> APK
         </button>
       </div>
@@ -653,7 +653,7 @@ async function openDetail(appId) {
         </div>
 
         <div class="dl-section">
-          <button class="btn-dl-big" onclick="quickDownload(this,'${esc(app.title)}')">
+          <button class="btn-dl-big" onclick="quickDownload(this,'${esc(app.title)}','${esc(app.url)}')">
             <i class="ti ti-download"></i> Download APK
           </button>
           <a href="${app.url}" target="_blank" rel="noopener">
@@ -729,12 +729,13 @@ function toggleDesc() {
 }
 
 // ── Download ───────────────────────────────────────────────────────────────────
-function quickDownload(btn, name) {
+function quickDownload(btn, name, url) {
   const orig = btn.innerHTML;
   btn.innerHTML = '<i class="ti ti-check"></i> Downloading…';
   btn.classList.add('success');
   setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('success'); }, 2200);
-  showToast(`Downloading ${name}…`);
+  showToast(`Opening ${name}…`);
+  if(url) window.open(url, '_blank', 'noopener');
 }
 
 // ── Toast ──────────────────────────────────────────────────────────────────────
