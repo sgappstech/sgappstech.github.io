@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All Apps - SG Apps Tech</title>
+<meta name="description" content="Browse the full collection of SG Apps Tech's WhatsApp sticker apps — Bubu Panda, Yellow Dino, Cute Baby, and Animated Baby Stickers.">
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="bg-blur bg1"></div>
+<div class="bg-blur bg2"></div>
+
+<header>
+    <div class="container nav">
+        <div class="logo">
+            SG Apps Tech
+        </div>
+
+<nav>
+    <a href="../index.html" class="nav-link">Home</a>
+    <a href="apps.html" class="nav-link active">Apps</a>
+    <a href="about_us.html" class="nav-link">About Us</a>
+    <a href="blog.html" class="nav-link">Blog</a>
+    <a href="faq.html" class="nav-link">FAQ</a>
+    <a href="contact_us.html" class="nav-link">Contact Us</a>
+    <a href="support.html" class="nav-link">Support</a>
+    <a href="privacy_policy.html" class="nav-link">Privacy Policy</a>
+    <a href="terms_conditions.html" class="nav-link">Terms &amp; Conditions</a>
+</nav>
+
+        <button class="nav-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+
+    </div>
+</header>
+
+<section class="hero center">
+<canvas class="particles-canvas"></canvas>
+<div class="container">
+<div class="badge reveal visible">Our Apps</div>
+<h1 class="reveal visible">All <span class="gradient-text">Sticker Apps</span></h1>
+<p class="reveal visible">
+Every WhatsApp sticker pack we've published, in one place. Tap any app to see
+screenshots, features, and how to install it.
+</p>
+</div>
+</section>
+
+<section>
+<div class="container">
+    <div id="appsGrid" class="apps-grid stagger"></div>
+</div>
+</section>
+
+<section>
+<div class="container">
+    <div class="glass about-card reveal">
+        <h2>Don't see what you're looking for?</h2>
+        <p>
+            We're always expanding our sticker library. If you have an idea for a
+            character or theme, let us know on the
+            <a href="contact_us.html">Contact page</a> — sticker requests are one of the
+            main ways we decide what to build next. You can also follow announcements
+            of new packs on our <a href="blog.html">Blog</a>.
+        </p>
+    </div>
+</div>
+</section>
+
+<footer>
+<div class="container">
+
+<div class="footer-links">
+    <a href="../index.html">Home</a>
+    <a href="apps.html">Apps</a>
+    <a href="about_us.html">About Us</a>
+    <a href="blog.html">Blog</a>
+    <a href="faq.html">FAQ</a>
+    <a href="support.html">Support</a>
+    <a href="contact_us.html">Contact Us</a>
+    <a href="privacy_policy.html">Privacy Policy</a>
+    <a href="terms_conditions.html">Terms &amp; Conditions</a>
+</div>
+
+© 2026 SG Apps Tech. All Rights Reserved.
+</div>
+</footer>
+
+<script src="../js/apps.js"></script>
+<script src="../js/main.js"></script>
+
+<script>
+const grid = document.getElementById("appsGrid");
+
+Object.keys(apps).forEach(id => {
+    const app = apps[id];
+
+    const card = document.createElement("div");
+    card.className = "reveal glass app-card";
+
+    card.innerHTML = `
+        <img src="${app.icon}" alt="${app.name}">
+        <h3>${app.name}</h3>
+        <p>${app.description.split(". ")[0]}.</p>
+        <div class="rating">⭐ ${app.rating} &nbsp;·&nbsp; ${app.downloads} downloads</div>
+        <br>
+        <a href="app-details.html?id=${id}" class="btn-primary">View Details</a>
+    `;
+
+    grid.appendChild(card);
+});
+
+// Re-run reveal observer for dynamically injected cards
+const dynRevealEls = grid.querySelectorAll(".reveal");
+const dynObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if(entry.isIntersecting){
+            entry.target.classList.add("visible");
+            dynObserver.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+
+dynRevealEls.forEach(el => dynObserver.observe(el));
+</script>
+
+</body>
+</html>
