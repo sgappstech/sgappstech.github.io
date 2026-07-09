@@ -7,6 +7,13 @@
 <meta name="description" content="Browse the full collection of SG Apps Tech's WhatsApp sticker apps — Bubu Panda, Yellow Dino, Cute Baby, and Animated Baby Stickers.">
 
 <link rel="stylesheet" href="../css/style.css">
+
+<link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
@@ -19,6 +26,7 @@
 <header>
     <div class="container nav">
         <div class="logo">
+            <img src="../img/logo.png" alt="SG Apps Tech logo">
             SG Apps Tech
         </div>
 
@@ -106,7 +114,7 @@ Object.keys(apps).forEach(id => {
     card.className = "reveal glass app-card";
 
     card.innerHTML = `
-        <img src="${app.icon}" alt="${app.name}">
+        <img src="${app.icon}" alt="${app.name}" width="110" height="110" loading="lazy" onerror="this.onerror=null;this.src='../img/logo.png';">
         <h3>${app.name}</h3>
         <p>${app.description.split(". ")[0]}.</p>
         <div class="rating">⭐ ${app.rating} &nbsp;·&nbsp; ${app.downloads} downloads</div>

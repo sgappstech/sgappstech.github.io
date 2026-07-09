@@ -7,6 +7,13 @@
 <meta name="description" content="Get in touch with SG Apps Tech for support, feedback, or sticker pack requests. Email us directly or use our contact form.">
 
 <link rel="stylesheet" href="../css/style.css">
+
+<link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
@@ -19,6 +26,7 @@
 <header>
     <div class="container nav">
         <div class="logo">
+            <img src="../img/logo.png" alt="SG Apps Tech logo">
             SG Apps Tech
         </div>
 
@@ -91,13 +99,15 @@ sgapps1896@gmail.com
 
 <h2 style="margin-top:40px;">Send Us a Message</h2>
 
-<form class="contact-form" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+<form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
 
-<input type="hidden" name="form-name" value="contact">
-
-<p style="display:none;">
-<label>Don't fill this out if you're human: <input name="bot-field"></label>
+<!-- Honeypot spam trap: real visitors never fill this in -->
+<p style="position:absolute;left:-9999px;" aria-hidden="true">
+<label>Leave this field empty: <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
 </p>
+
+<!-- Custom email subject line for the notification you receive -->
+<input type="hidden" name="_subject" value="New message from SG Apps Tech contact form">
 
 <input type="text" name="name" placeholder="Your Name" required>
 
@@ -114,9 +124,8 @@ sgapps1896@gmail.com
 
 <button type="submit">Send Message</button>
 
-<p class="form-note">
-This form is handled by Netlify Forms — we'll get your message directly, no
-third-party service involved.
+<p class="form-note" id="formStatus">
+Sending your message emails us directly — we typically reply within 24–48 hours.
 </p>
 
 </form>
@@ -145,6 +154,43 @@ third-party service involved.
 </footer>
 
 <script src="../js/main.js"></script>
+
+<script>
+const contactForm = document.getElementById("contactForm");
+const formStatus = document.getElementById("formStatus");
+
+if(contactForm){
+    contactForm.addEventListener("submit", async function(e){
+        e.preventDefault();
+
+        const submitBtn = contactForm.querySelector("button[type=submit]");
+        submitBtn.disabled = true;
+        formStatus.textContent = "Sending...";
+        formStatus.classList.remove("form-error");
+
+        try{
+            const response = await fetch(contactForm.action, {
+                method: "POST",
+                body: new FormData(contactForm),
+                headers: { "Accept": "application/json" }
+            });
+
+            if(response.ok){
+                formStatus.textContent = "Thanks! Your message has been sent — we'll get back to you within 24–48 hours.";
+                contactForm.reset();
+            }else{
+                formStatus.textContent = "Something went wrong. Please email us directly at sgapps1896@gmail.com.";
+                formStatus.classList.add("form-error");
+            }
+        }catch(err){
+            formStatus.textContent = "Something went wrong. Please email us directly at sgapps1896@gmail.com.";
+            formStatus.classList.add("form-error");
+        }finally{
+            submitBtn.disabled = false;
+        }
+    });
+}
+</script>
 
 </body>
 </html>

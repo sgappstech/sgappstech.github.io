@@ -8,6 +8,13 @@
 <meta id="metaDescription" name="description" content="View details, features, screenshots and installation steps for SG Apps Tech's WhatsApp sticker applications.">
 
 <link rel="stylesheet" href="../css/style.css">
+
+<link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="../img/favicon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../img/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
@@ -21,6 +28,7 @@
 <header>
     <div class="container nav">
         <div class="logo">
+            <img src="../img/logo.png" alt="SG Apps Tech logo">
             SG Apps Tech
         </div>
 
@@ -54,8 +62,11 @@
 
     <img
     id="appIcon"
-    src=""
+    src="../img/logo.png"
     alt=""
+    width="130"
+    height="130"
+    onerror="this.onerror=null;this.src='../img/logo.png';"
     class="app-icon">
 
     <div class="app-meta">
@@ -325,6 +336,12 @@ if(app){
             img.src = image;
 
             img.alt = app.name;
+
+            img.loading = "lazy";
+
+            img.onerror = function(){
+                this.remove();
+            };
 
             screenshotContainer.appendChild(img);
 
